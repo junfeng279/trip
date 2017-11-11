@@ -7,10 +7,7 @@ import com.userservice.modal.vo.UserVo;
 import com.userservice.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -59,6 +56,36 @@ public class UserController {
         }
         UserVo user = userService.findByUserName(name);
         result = (JSONObject) JSON.toJSON(user);
+        return result;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    public JSONObject updateUser(@RequestBody UserVo userVo){
+        JSONObject result = new JSONObject();
+        if(userVo==null){
+            result.put("code", "用户不能为空");
+            return result;
+        }
+
+        try {
+            userService.updateUser(userVo);
+            result.put("code", "更新用户成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("code", e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/user/{uid}", method = RequestMethod.DELETE)
+    public JSONObject deleteUser(@PathVariable Integer uid){
+        JSONObject result = new JSONObject();
+        if(uid==null){
+            result.put("code", "用户主键id不能为空");
+            return result;
+        }
+        userService.deleteById(uid);
+        result.put("code", "删除用户成功");
         return result;
     }
 }
