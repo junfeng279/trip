@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: zuul
+
+server:
+  port: 4000
+
+eureka:
+  instance:
+    hostname: config
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
+
+# 设置默认超时时间60s（default为全局；若想设置某项服务的超时时间，只需要将default替换为对应的服务名）
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+zuul:
+  routes:
+    managers:
+      path: /userservice/**
+      service-id: userservice
+      stripPrefix: true
+      sensitiveHeaders:
+
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: "Bearer "
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+      register: "auth/register"
