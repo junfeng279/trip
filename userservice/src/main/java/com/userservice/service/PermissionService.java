@@ -35,4 +35,11 @@ public interface PermissionService {
      * @return
      */
     public Integer deletePermission(Integer pid) throws Exception;
+
+    /**
+     * 根据用户id查找用户权限
+     * @param uid
+     * @return
+     */
+    public  List<PermissionVo>  findByAdminUserId(Integer uid);
 }

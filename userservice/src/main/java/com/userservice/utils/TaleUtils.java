@@ -1,6 +1,5 @@
 package com.userservice.utils;
 import org.apache.commons.lang3.StringUtils;
-import org.commonmark.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -36,10 +35,6 @@ public class TaleUtils {
     private static final Pattern SLUG_REGEX = Pattern.compile("^[A-Za-z0-9_-]{5,100}$", Pattern.CASE_INSENSITIVE);
     // 使用双重检查锁的单例方式需要添加 volatile 关键字
     private static volatile DataSource newDataSource;
-    /**
-     * markdown解析器
-     */
-    private static Parser parser = Parser.builder().build();
     /**
      * 获取文件所在目录
      */
@@ -303,5 +298,9 @@ public class TaleUtils {
         path = path.substring(0, lastIndex);
         File file = new File("");
         return file.getAbsolutePath() + "/";
+    }
+
+    public static void main(String[] args) {
+        System.out.printf(MD5encode("junfeng"));
     }
 }

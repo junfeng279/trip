@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService{
             throw new Exception("密码不能为空");
         }
         //用户密码加密
-        String encodePwd = TaleUtils.MD5encode(user.getPassword());
-        user.setPassword(encodePwd);
+      //  String encodePwd = TaleUtils.MD5encode(user.getPassword());
+        user.setPassword(user.getPassword());
         int time = DateKit.getCurrentUnixTime();
         user.setLastLoginTime(time);
         user.setRegTime(time);

@@ -30,4 +30,6 @@ public interface PermissionVoMapper {
     int updateByPrimaryKey(PermissionVo record);
 
     List<PermissionVo> findAllPermission();
+
+    public List<PermissionVo> findByAdminUserId(Integer uid);
 }

@@ -1,5 +1,6 @@
 package com.userservice.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.userservice.dao.PermissionVoMapper;
 import com.userservice.modal.vo.PermissionVo;
 import com.userservice.service.PermissionService;
@@ -58,5 +59,10 @@ public class PermissionServiceImpl implements PermissionService{
             throw new Exception("权限主键id不能为空");
         }
         return permissionDao.deleteByPrimaryKey(pid);
+    }
+
+    @Override
+    public List<PermissionVo> findByAdminUserId(Integer uid) {
+        return permissionDao.findByAdminUserId(uid);
     }
 }

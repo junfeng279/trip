@@ -9,6 +9,12 @@ spring:
     password: 123456
     initialize: true
     sql-script-encoding: utf-8
+    schema: classpath: schema.sql     #指定生成数据库的schema文件位置
+    data: classpath: data.sql #指定插入数据库语句的脚本位置
+
+
+
+
 
 server:
   port: 8083
@@ -16,3 +22,12 @@ server:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.userservice.dao
+
+eureka:
+  instance:
+    hostname: userservice
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8762/eureka/

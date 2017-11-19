@@ -6,6 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.userservice.modal.vo.UserVo;
 import com.userservice.service.UserService;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user-api")
 public class UserController {
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -45,16 +48,18 @@ public class UserController {
         }
         return result;
     }
-    @RequestMapping(value = "/user/searchByName", method = RequestMethod.POST)
-    public JSONObject findUserByName(@RequestBody String username){
+    @RequestMapping(value = "/user/{username}", method = RequestMethod.POST)
+    public JSONObject findUserByName(@PathVariable(value = "username") String username){
         JSONObject result = new JSONObject();
-        JSONObject params = JSONObject.parseObject(username);
-        String name = params.getString("username");
-        if(StringUtils.isBlank(name)){
+        logger.info(">>>>>>>>>>>>>>>>>>findUserByName>>>>>>>>username"+username);
+     //   JSONObject params = JSONObject.parseObject(username);
+     //   String name = params.getString("username");
+        if(StringUtils.isBlank(username)){
             result.put("code", "用户名称不能为空");
             return result;
         }
-        UserVo user = userService.findByUserName(name);
+        UserVo user = userService.findByUserName(username);
+        logger.info(">>>>>>>>>>>>>>>>>>findUserByName>>>>>>>>user:"+user.getUsername()+" || password:"+user.getPassword());
         result = (JSONObject) JSON.toJSON(user);
         return result;
     }
