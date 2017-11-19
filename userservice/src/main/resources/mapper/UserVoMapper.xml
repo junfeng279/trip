@@ -125,7 +125,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.userservice.modal.vo.UserVo">
+  <insert id="insert" parameterType="com.userservice.modal.vo.UserVo" useGeneratedKeys="true" keyProperty="id">
     insert into sys_user (id, username, password, 
       email, mobile, reg_time, reg_ip, 
       last_login_time, last_login_ip, update_time, 
@@ -135,7 +135,7 @@
       #{lastLoginTime,jdbcType=INTEGER}, #{lastLoginIp,jdbcType=BIGINT}, #{updateTime,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.userservice.modal.vo.UserVo">
+  <insert id="insertSelective" parameterType="com.userservice.modal.vo.UserVo" useGeneratedKeys="true" keyProperty="id">
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

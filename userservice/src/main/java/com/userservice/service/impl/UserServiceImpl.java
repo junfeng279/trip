@@ -1,12 +1,15 @@
 package com.userservice.service.impl;
 
 import com.userservice.dao.UserVoMapper;
+import com.userservice.modal.vo.RoleUserVo;
 import com.userservice.modal.vo.UserVo;
 import com.userservice.modal.vo.UserVoExample;
+import com.userservice.service.RoleUserService;
 import com.userservice.service.UserService;
 import com.userservice.utils.DateKit;
 import com.userservice.utils.TaleUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +23,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     @Resource
     private UserVoMapper userDao;
+    @Autowired
+    private RoleUserService roleUserService;
     @Override
     public Integer addUser(UserVo user) throws Exception {
         if(user==null){
@@ -32,12 +37,17 @@ public class UserServiceImpl implements UserService{
             throw new Exception("密码不能为空");
         }
         //用户密码加密
-      //  String encodePwd = TaleUtils.MD5encode(user.getPassword());
+        //  String encodePwd = TaleUtils.MD5encode(user.getPassword());
         user.setPassword(user.getPassword());
         int time = DateKit.getCurrentUnixTime();
         user.setLastLoginTime(time);
         user.setRegTime(time);
-        return userDao.insertSelective(user);
+        Integer uid = userDao.insertSelective(user);
+        if(uid!=null){
+            //为用户插入默认角色
+            roleUserService.insertRoleUser(uid, 1);
+        }
+        return uid;
     }
 
     @Override
