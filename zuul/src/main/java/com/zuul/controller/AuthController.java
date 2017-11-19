@@ -1,9 +1,12 @@
 package com.zuul.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.netflix.discovery.converters.Auto;
 import com.zuul.filter.JwtAuthenticationRequest;
 import com.zuul.filter.JwtAuthenticationResponse;
 import com.zuul.service.AuthService;
+import com.zuul.service.UserService;
 import org.apache.http.auth.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UserService userService;
     @Value("${jwt.header}")
     private String tokenHeader;
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
@@ -31,6 +36,11 @@ public class AuthController {
 
         // Return the token
         return token;
+    }
+    @RequestMapping(value = "/auth/users", method = RequestMethod.GET)
+    public JSONArray getUsers() throws AuthenticationException {
+        JSONArray results = userService.getAllUsers();
+        return results;
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)

@@ -5,14 +5,10 @@ spring:
 server:
   port: 4000
 
-eureka:
-  instance:
-    hostname: config
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8762/eureka/
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+  MaxAutoRetries: 2
 
 # 设置默认超时时间60s（default为全局；若想设置某项服务的超时时间，只需要将default替换为对应的服务名）
 hystrix:
@@ -20,17 +16,17 @@ hystrix:
     default:
       execution:
         isolation:
+          strategy: THREAD
           thread:
-            timeoutInMilliseconds: 60000
-
+            timeoutInMilliseconds: 10000
 zuul:
+  addHostHeader: true
   routes:
-    managers:
+    userservice:
       path: /userservice/**
-      service-id: userservice
-      stripPrefix: true
+      serviceId: userservice
       sensitiveHeaders:
-
+      customSensitiveHeaders: true
 
 jwt:
   header: Authorization
@@ -42,3 +38,12 @@ jwt:
       path: auth
       refresh: refresh
       register: "auth/register"
+
+eureka:
+  instance:
+    hostname: config
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8762/eureka/

@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by junfeng on 17-11-11.
  */
 @Service
-@FeignClient(value = "userservice")
+@FeignClient(name = "userservice")
 public interface UserService {
 
     @RequestMapping(value = "/user-api/users", method = RequestMethod.GET)
     JSONArray getAllUsers();
 
-    @RequestMapping(value = "/user/{username}", method = RequestMethod.POST)
+    @RequestMapping(value = "/user-api/user/{username}", method = RequestMethod.POST)
     JSONObject findUserByName(@PathVariable(value = "username") String username);
 
     @RequestMapping(value = "/per-api/permission/{uid}", method = RequestMethod.GET)
