@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wantrip:war">
+    <output-path>$PROJECT_DIR$/wantrip/target</output-path>
+    <root id="archive" name="wantrip.war">
+      <element id="artifact" artifact-name="wantrip:war exploded" />
+    </root>
+  </artifact>
+</component>
