@@ -17,6 +17,13 @@
     <docker.registry.name>testuser</docker.registry.name>
   </properties>
 
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.4.2.RELEASE</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
   <dependencies>
     <!--eurekaService必须引用的包-->
     <dependency>
@@ -36,7 +43,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Dalston.SR1</version>
+        <version>Camden.SR6</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
