@@ -45,7 +45,7 @@ public class CustomUserService implements UserDetailsService {
                     logger.info("权限名称："+per.getString("name"));
                 }
             }
-            return new User(user.getString("name"), user.getString("password"), grantedAuthorities);
+            return new User(user.getString("username"), user.getString("password"), grantedAuthorities);
         }else{
             throw new UsernameNotFoundException("admin: " + username + " do not exist!");
         }

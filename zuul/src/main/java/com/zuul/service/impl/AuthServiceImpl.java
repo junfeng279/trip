@@ -39,12 +39,12 @@ public class AuthServiceImpl implements AuthService{
     public String login(String username, String password) {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         // Perform the security
-        final Authentication authentication = authenticationManager.authenticate(upToken);
+        Authentication authentication = authenticationManager.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token
-        final UserDetails userDetails = customUserService.loadUserByUsername(username);
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        UserDetails userDetails = customUserService.loadUserByUsername(username);
+        String token = jwtTokenUtil.generateToken(userDetails);
         return token;
     }
 
