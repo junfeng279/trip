@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker
+@EnableTransactionManagement
 public class UserApplication {
 
     public static void main(String[] args) {

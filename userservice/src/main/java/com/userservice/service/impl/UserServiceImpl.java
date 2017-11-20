@@ -1,5 +1,6 @@
 package com.userservice.service.impl;
 
+import com.userservice.controller.UserController;
 import com.userservice.dao.UserVoMapper;
 import com.userservice.modal.vo.RoleUserVo;
 import com.userservice.modal.vo.UserVo;
@@ -9,10 +10,13 @@ import com.userservice.service.UserService;
 import com.userservice.utils.DateKit;
 import com.userservice.utils.TaleUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.beans.Transient;
 import java.util.List;
 
 /**
@@ -21,11 +25,14 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService{
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Resource
     private UserVoMapper userDao;
     @Autowired
     private RoleUserService roleUserService;
+
     @Override
+    @Transient
     public Integer addUser(UserVo user) throws Exception {
         if(user==null){
             return null;
@@ -43,9 +50,11 @@ public class UserServiceImpl implements UserService{
         user.setLastLoginTime(time);
         user.setRegTime(time);
         Integer uid = userDao.insertSelective(user);
+        logger.info(">>>>>>>>>>>>>>>>>>>>uid:"+uid);
         if(uid!=null){
             //为用户插入默认角色
-            roleUserService.insertRoleUser(uid, 1);
+            logger.info(">>>>>>>>>>>>>>>>>>>>>uid:"+user.getId());
+            roleUserService.insertRoleUser(user.getId(), 1);
         }
         return uid;
     }
