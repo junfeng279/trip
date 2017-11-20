@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by junfeng on 17-11-11.
  */
 @Service
@@ -36,7 +37,8 @@ public class CustomUserService implements UserDetailsService {
             List<GrantedAuthority> grantedAuthorities = new ArrayList <>();
             for(Object permission: permissions){
                 JSONObject per = (JSONObject) JSONObject.toJSON(permission);
-                if(per!=null && StringUtils.isBlank(per.getString("name"))){
+                logger.info(">>>>>>>>>>>>>>>>>>>permission:"+per.getString("name"));
+                if(per!=null && StringUtils.isNotBlank(per.getString("name"))){
                     GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(per.getString("name"));
                     //1：此处将权限信息添加到 GrantedAuthority 对象中，在后面进行全权限验证时会使用GrantedAuthority 对象。
                     grantedAuthorities.add(grantedAuthority);

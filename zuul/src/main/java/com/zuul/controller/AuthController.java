@@ -11,6 +11,7 @@ import org.apache.http.auth.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,11 +32,12 @@ public class AuthController {
     @Value("${jwt.header}")
     private String tokenHeader;
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public String login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public JSONObject login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+        JSONObject result = new JSONObject();
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+        result.put("token", token);
         // Return the token
-        return token;
+        return result;
     }
     @RequestMapping(value = "/auth/users", method = RequestMethod.GET)
     public JSONArray getUsers() throws AuthenticationException {
@@ -57,6 +59,9 @@ public class AuthController {
 
     @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
     public JSONObject register(@RequestBody JSONObject addedUser) throws AuthenticationException{
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final String rawPassword = addedUser.getString("password");
+        addedUser.put("password", encoder.encode(rawPassword));
         return authService.register(addedUser);
     }
 }
