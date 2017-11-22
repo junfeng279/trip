@@ -136,7 +136,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wantrip.modal.vo.ContentVo">
+  <insert id="insert" parameterType="com.wantrip.modal.vo.ContentVo" useGeneratedKeys="true" keyProperty="cid">
     insert into t_contents (cid, title, slug, 
       created, modified, author_id, 
       type, status, tags, 
@@ -150,7 +150,7 @@
       #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, #{allowFeed,jdbcType=BIT}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.ContentVo">
+  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.ContentVo" useGeneratedKeys="true" keyProperty="cid">
     insert into t_contents
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cid != null">
@@ -446,4 +446,22 @@
       allow_feed = #{allowFeed,jdbcType=BIT}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
+
+
+  <resultMap id="archiveBoMap" type="com.my.blog.website.modal.Bo.ArchiveBo">
+    <id column="date" property="date"/>
+    <result column="count" property="count"/>
+  </resultMap>
+
+  <select id="findReturnArchiveBo" resultMap="archiveBoMap">
+    select FROM_UNIXTIME(created, '%Y年%m月') as date, count(*) as count from t_contents where type = 'post' and status = 'publish' group by date order by date desc
+  </select>
+
+
+  <select id="findByCatalog" resultMap="BaseResultMap" parameterType="Integer">
+    select a.*
+    from t_contents a left join t_relationships b on a.cid = b.cid
+    where b.mid = #{value} and a.status = 'publish' and a.type = 'post'
+    order by a.created desc
+  </select>
 </mapper>

@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wantrip.modal.vo.AttachVo">
+  <insert id="insert" parameterType="com.wantrip.modal.vo.AttachVo" useGeneratedKeys="true" keyProperty="id">
     insert into t_attach (id, fname, ftype, 
       fkey, author_id, created
       )
@@ -109,7 +109,7 @@
       #{fkey,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, #{created,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.AttachVo">
+  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.AttachVo" useGeneratedKeys="true" keyProperty="id">
     insert into t_attach
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

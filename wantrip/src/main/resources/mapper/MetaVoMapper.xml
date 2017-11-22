@@ -102,7 +102,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.wantrip.modal.vo.MetaVo">
+  <insert id="insert" parameterType="com.wantrip.modal.vo.MetaVo" useGeneratedKeys="true" keyProperty="mid">
     insert into t_metas (mid, name, slug, 
       type, description, sort, 
       parent)
@@ -110,7 +110,7 @@
       #{type,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
       #{parent,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.MetaVo">
+  <insert id="insertSelective" parameterType="com.wantrip.modal.vo.MetaVo" useGeneratedKeys="true" keyProperty="mid">
     insert into t_metas
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="mid != null">
@@ -241,4 +241,19 @@
       parent = #{parent,jdbcType=INTEGER}
     where mid = #{mid,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectFromSql" resultMap="MetaDto" parameterType="Map">
+    select a.*, count(b.cid) as count from t_metas a left join `t_relationships` b on a.mid = b.mid where a.type = #{type} group by a.mid order by #{order} limit #{limit}
+  </select>
+
+  <select id="selectDtoByNameAndType" resultMap="MetaDto">
+    select a.*, count(b.cid) as count from t_metas a left join `t_relationships` b on a.mid = b.mid where a.type = #{type} and a.name = #{name} group by a.mid
+  </select>
+
+  <select id="countWithSql" parameterType="Integer" resultType="Integer">
+    SELECT count(0)
+    FROM t_contents a LEFT JOIN t_relationships b ON a.cid = b.cid
+    WHERE b.mid = #{value} AND a.status = 'publish' AND a.type = 'post';
+  </select>
 </mapper>
