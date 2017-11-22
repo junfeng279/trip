@@ -1,8 +1,11 @@
 package com.wantrip.dao;
 
+import com.wantrip.dto.MetaDto;
 import com.wantrip.modal.vo.MetaVo;
 import com.wantrip.modal.vo.MetaVoExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface MetaVoMapper {
@@ -27,4 +30,11 @@ public interface MetaVoMapper {
     int updateByPrimaryKeySelective(MetaVo record);
 
     int updateByPrimaryKey(MetaVo record);
+
+
+    List<MetaDto> selectFromSql(Map<String,Object> paraMap);
+
+    MetaDto selectDtoByNameAndType(@Param("name") String name,@Param("type") String type);
+
+    Integer countWithSql(Integer mid);
 }

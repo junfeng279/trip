@@ -1,5 +1,6 @@
 package com.wantrip.dao;
 
+import com.wantrip.modal.bo.ArchiveBo;
 import com.wantrip.modal.vo.ContentVo;
 import com.wantrip.modal.vo.ContentVoExample;
 import java.util.List;
@@ -33,4 +34,9 @@ public interface ContentVoMapper {
     int updateByPrimaryKeyWithBLOBs(ContentVo record);
 
     int updateByPrimaryKey(ContentVo record);
+
+
+    List<ArchiveBo> findReturnArchiveBo();
+
+    List<ContentVo> findByCatalog(Integer mid);
 }
