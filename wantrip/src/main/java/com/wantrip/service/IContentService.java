@@ -12,45 +12,35 @@ import java.util.List;
  */
 public interface IContentService {
     /**
-     * 保存文章
-     * @param contentVo
-     * @return
+     * 发布文章
+     * @param contents
      */
-    Integer save(ContentVo contentVo);
+    void publish(ContentVo contents);
 
     /**
-     * 更新文章
-     * @param contentVo
-     * @return
+     *查询文章返回多条数据
+     * @param p 当前页
+     * @param limit 每页条数
+     * @return ContentVo
      */
-    Integer update(ContentVo contentVo);
+    PageInfo<ContentVo> getContents(Integer p, Integer limit);
+
 
     /**
-     * 删除文章
-     * @param contentVo
-     * @return
+     * 根据id或slug获取文章
+     *
+     * @param id id
+     * @return ContentVo
      */
-    Integer delete(ContentVo contentVo);
+    ContentVo getContents(String id);
 
     /**
-     * 根据主键删除文章
-     * @param id
-     * @return
+     * 根据主键更新
+     * @param contentVo contentVo
      */
-    Integer deleteById(Integer id);
+    void updateContentByCid(ContentVo contentVo);
 
-    /**
-     * 查找所有文章
-     * @return
-     */
-    List<ContentVo> getAll();
 
-    /**
-     * 根据文章主键查找文章
-     * @param id
-     * @return
-     */
-    ContentVo getContentById(Integer id);
     /**
      * 查询分类/标签下的文章归档
      * @param mid mid
@@ -59,6 +49,7 @@ public interface IContentService {
      * @return ContentVo
      */
     PageInfo<ContentVo> getArticles(Integer mid, int page, int limit);
+
     /**
      * 搜索、分页
      * @param keyword keyword
@@ -68,6 +59,7 @@ public interface IContentService {
      */
     PageInfo<ContentVo> getArticles(String keyword,Integer page,Integer limit);
 
+
     /**
      * @param commentVoExample
      * @param page
@@ -76,17 +68,22 @@ public interface IContentService {
      */
     PageInfo<ContentVo> getArticlesWithpage(ContentVoExample commentVoExample, Integer page, Integer limit);
     /**
+     * 根据文章id删除
+     * @param cid
+     */
+    void deleteByCid(Integer cid);
+
+    /**
+     * 编辑文章
+     * @param contents
+     */
+    void updateArticle(ContentVo contents);
+
+
+    /**
      * 更新原有文章的category
      * @param ordinal
      * @param newCatefory
      */
     void updateCategory(String ordinal,String newCatefory);
-
-    /**
-     *查询文章返回多条数据
-     * @param p 当前页
-     * @param limit 每页条数
-     * @return ContentVo
-     */
-    PageInfo<ContentVo> getContents(Integer p, Integer limit);
 }
