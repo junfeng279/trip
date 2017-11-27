@@ -86,4 +86,11 @@ public interface IContentService {
      * @param newCatefory
      */
     void updateCategory(String ordinal,String newCatefory);
+
+    /**
+     * 根据文章id查找文章详细信息
+     * @param cid
+     * @return
+     */
+    ContentVo getArticleById(Integer cid);
 }

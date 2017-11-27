@@ -221,4 +221,11 @@ public class ContentServiceImpl implements IContentService{
         metasService.saveMetas(cid, contents.getTags(), Types.TAG.getType());
         metasService.saveMetas(cid, contents.getCategories(), Types.CATEGORY.getType());
     }
+
+    public ContentVo getArticleById(Integer cid){
+        if(cid==null){
+            return null;
+        }
+        return contentDao.selectByPrimaryKey(cid);
+    }
 }
