@@ -17,3 +17,7 @@ COMMIT;
 BEGIN;
 INSERT INTO `sys_permission_role` VALUES ('1', '1', '1'), ('2', '1', '2'), ('3', '2', '1');
 COMMIT;
+
+use trip;
+alter table sys_user modify column password varchar(100);
+update sys_user set password='$2a$10$6CxTNxftLSjmXmc9jnS1yuhd1/7dOZoPUw2kYQEjT4vQ6KRdGuKNi' where id=2
