@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,9 +44,16 @@ public class UserServiceImpl implements UserService{
         if(StringUtils.isBlank(user.getPassword())){
             throw new Exception("密码不能为空");
         }
+        if(userDao.findByUserName(user.getUsername())!=null){
+            return null;
+        }
+        UserVo uu = null;
         //用户密码加密
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String rawPassword = user.getPassword();
+        user.setPassword(encoder.encode(rawPassword));
         //  String encodePwd = TaleUtils.MD5encode(user.getPassword());
-        user.setPassword(user.getPassword());
+        //  user.setPassword(user.getPassword());
         int time = DateKit.getCurrentUnixTime();
         user.setLastLoginTime(time);
         user.setRegTime(time);
@@ -71,8 +79,9 @@ public class UserServiceImpl implements UserService{
             throw new Exception("密码不能为空");
         }
         //用户密码加密
-        String encodePwd = TaleUtils.MD5encode(user.getPassword());
-        user.setPassword(encodePwd);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String rawPassword = user.getPassword();
+        user.setPassword(encoder.encode(rawPassword));
         int time = DateKit.getCurrentUnixTime();
         user.setLastLoginTime(time);
         return userDao.updateByPrimaryKeySelective(user);
