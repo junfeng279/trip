@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web){
         //解决静态资源被拦截问题
         web.ignoring().antMatchers("/tripview/**")
-                .and().ignoring().antMatchers("/common/**");
+                .and().ignoring().antMatchers("/common/**")
+                .and().ignoring().antMatchers("/templates/**");
     }
 }
