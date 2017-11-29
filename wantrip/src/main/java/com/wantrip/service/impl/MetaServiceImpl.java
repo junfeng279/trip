@@ -15,6 +15,7 @@ import com.wantrip.service.IRelationshipService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
  * 分类信息service接口
  * Created by junfeng on 17-11-22.
  */
+@Service
 public class MetaServiceImpl implements IMetaService{
     private static final Logger LOGGER = LoggerFactory.getLogger(MetaServiceImpl.class);
 
