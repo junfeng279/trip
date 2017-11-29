@@ -24,9 +24,31 @@
  * 1.0 - Google Font
  */
 
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Lato Light'), local('Lato-Light'), url(../fonts/nj47mAZe0mYUIySgfn0wpQ.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Lato';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Lato Regular'), local('Lato-Regular'), url(../fonts/v0SdcGFAl2aezM9Vq_aFTQ.ttf) format('truetype');
+}
 
-@import url(http://fonts.useso.com/css?family=Lato:300,400);
-@import url(http://fonts.useso.com/css?family=Ubuntu:300,400);
+@font-face {
+	font-family: 'Ubuntu';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Ubuntu Light'), local('Ubuntu-Light'), url(../fonts/4iCv6KVjbNBYlgoC1CzjsGyI.ttf) format('truetype');
+}
+@font-face {
+	font-family: 'Ubuntu';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Ubuntu Regular'), local('Ubuntu-Regular'), url(../fonts/4iCs6KVjbNBYlgoKfw7z.ttf) format('truetype');
+}
 
 /**
  * 2.0 - General Elements
