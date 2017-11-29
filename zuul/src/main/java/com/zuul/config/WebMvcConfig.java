@@ -20,7 +20,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/templates/**")
-                .addResourceLocations("classpath:/resources/templates/");
+                .addResourceLocations("classpath:/templates/");
     }
 
 }

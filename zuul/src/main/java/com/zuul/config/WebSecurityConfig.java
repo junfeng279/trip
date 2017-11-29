@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 对于获取token的rest api要允许匿名访问
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/page/**").permitAll()
                 .antMatchers("/hystrix.stream/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
@@ -65,6 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //解决静态资源被拦截问题
         web.ignoring().antMatchers("/tripview/**")
                 .and().ignoring().antMatchers("/common/**")
+                .and().ignoring().antMatchers("/admin/**")
+                .and().ignoring().antMatchers("/front/**")
                 .and().ignoring().antMatchers("/templates/**");
     }
 }
