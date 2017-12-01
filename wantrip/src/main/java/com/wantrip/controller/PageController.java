@@ -56,6 +56,7 @@ public class PageController {
      * @param cid
      * @return
      */
+    @RequestMapping(value = "/{cid}", method = RequestMethod.GET)
     public JSONObject article(@PathVariable(value = "cid")Integer cid){
         JSONObject result = new JSONObject();
         if(cid==null){
