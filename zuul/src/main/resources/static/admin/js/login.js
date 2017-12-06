@@ -37,8 +37,8 @@
                     data: JSON.stringify(params),
                     contentType: 'application/json',
                     success: function(data){
-                        alert(data.token);
-                        debugger;
+                        setCookie("user_token", data.token);
+    //                    alert(getCookie("user_token"));
                     },
                     error: function(data){
 
