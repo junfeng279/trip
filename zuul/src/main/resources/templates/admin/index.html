@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>wan & Trip</title>
@@ -11,20 +11,41 @@
     <link href="../../common/css/font-awesome.css" rel="stylesheet"/>
     <link href="../../admin/css/style.min.css" rel="stylesheet" type="text/css"/>
     <link href="../../common/css/sweetalert2.min.css" rel="stylesheet"/>
+    <link href="../../admin/css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="../../common/plugin/tagsinput/jquery.tagsinput.css" rel="stylesheet"/>
+    <link href="../../common/select3/select2-bootstrap.css" rel="stylesheet"/>
+    <link href="../../common/plugin/toggles/toggles.css" rel="stylesheet"/>
+    <link href="//cdn.bootcss.com/multi-select/0.9.12/css/multi-select.css" rel="stylesheet"/>
+    <link href="//cdn.bootcss.com/select2/3.4.8/select2.min.css" rel="stylesheet"/>
+    <link href="//cdn.bootcss.com/multi-select/0.9.12/css/multi-select.css" rel="stylesheet"/>
 
 
     <script src="../../common/js/jquery-3.2.1.js"></script>
     <script src="../../common/js/sweetalert2.js"></script>
     <script src="../../common/js/vue.js"></script>
     <script src="../../common/js/bootstrap.js"></script>
+    <script src="../../common/plugin/tagsinput/jquery.tagsinput.min.js"></script>
+    <script src="../../common/plugin/jquery-multi-select/jquery.quicksearch.js"></script>
+    <script src="../../common/plugin/md/js/jquery.scrollto.js"></script>
+    <script src="../../common/plugin/md/js/pagedown.js"></script>
+    <script src="../../common/plugin/md/js/pagedown-extra.js"></script>
+    <script src="../../common/plugin/md/js/diff.js"></script>
+    <script src="../../common/plugin/md/js/md.js"></script>
+    <script src="//cdn.bootcss.com/select2/3.4.8/select2.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-toggles/2.0.4/toggles.min.js"></script>
+    <script src="//cdn.bootcss.com/multi-select/0.9.12/js/jquery.multi-select.min.js"></script>
 
 </head>
 <body class="fixed-left">
 
 <div id="wrapper">
     <app-header v-on:menuclick="changemenu"></app-header>
+    <component :is="currentView"></component>
 </div>
 </body>
 <script src="../../admin/js/header.js"></script>
+<script src="../../admin/js/home.js"></script>
+<script src="../../admin/js/article.js"></script>
+<script src="../../admin/js/publish.js"></script>
 <script src="../../admin/js/index.js"></script>
 </html>
