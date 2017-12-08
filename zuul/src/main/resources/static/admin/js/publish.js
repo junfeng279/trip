@@ -43,49 +43,56 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
                     if (off == 1) {
                         $('#allowFeed').val(true);
                     }
+                },
+                initMarkdown: function(){
+                    this.$nextTick(function(){
+                        var textarea = $('#text'),
+                            toolbar = $('<div class="markdown-editor" id="md-button-bar" />').insertBefore(textarea.parent())
+                        preview = $('<div id="md-preview" class="md-hidetab" />').insertAfter('.markdown-editor');
+                        markdown(textarea, toolbar, preview);
+                    });
+                },
+                initOther: function(){
+                    this.$nextTick(function(){
+                        // Tags Input
+                        $('#tags').tagsInput({
+                            width: '100%',
+                            height: '35px',
+                            defaultText: '请输入文章标签'
+                        });
+
+                        $('.toggle').toggles({
+                            on: true,
+                            text: {
+                                on: '开启',
+                                off: '关闭'
+                            }
+                        });
+
+                        $(".select2").select2({
+                            width: '100%'
+                        });
+
+                        $('div.allow-false').toggles({
+                            off: true,
+                            text: {
+                                on: '开启',
+                                off: '关闭'
+                            }
+                        });
+                    });
                 }
             },
             created: function () {
 
             },
             mounted: function () {
-                init();
+                this.initMarkdown();
+                this.initOther();
             }
         });
     });
 });
 
-function init() {
-    // Tags Input
-    $('#tags').tagsInput({
-        width: '100%',
-        height: '35px',
-        defaultText: '请输入文章标签'
-    });
-
-    $('.toggle').toggles({
-        on: true,
-        text: {
-            on: '开启',
-            off: '关闭'
-        }
-    });
-
-    $(".select2").select2({
-        width: '100%'
-    });
-
-    $('div.allow-false').toggles({
-        off: true,
-        text: {
-            on: '开启',
-            off: '关闭'
-        }
-    });
-    var textarea = $('#text'),
-        toolbar = $('<div class="markdown-editor" id="md-button-bar" />').insertBefore(textarea.parent())
-     preview = $('<div id="md-preview" class="md-hidetab" />').insertAfter('.markdown-editor');
-    markdown(textarea, toolbar, preview);
-}
 
 
