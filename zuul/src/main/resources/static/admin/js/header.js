@@ -8,8 +8,8 @@ var header = Vue.component('app-header', function(resolve, reject){
                 return {
                     sidemenu: {
                         home: "仪表盘",
-                        publish: "发布文章",
-                        article: "文章管理",
+                        publishs: "发布文章",
+                        articles: "文章管理",
                         page: "页面管理",
                         comments: "评论管理",
                         category: "分类/标签",
