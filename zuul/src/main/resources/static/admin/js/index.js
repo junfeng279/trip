@@ -14,6 +14,8 @@ var index = new Vue({
         articles: articles,
         publishs: publishs,
         comments: comments,
-        category: category
+        category: category,
+        attach: attach,
+        links: links
     }
 });
