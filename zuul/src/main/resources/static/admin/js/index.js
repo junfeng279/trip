@@ -13,6 +13,7 @@ var index = new Vue({
         home: home,
         articles: articles,
         publishs: publishs,
-        comments: comments
+        comments: comments,
+        category: category
     }
 });
