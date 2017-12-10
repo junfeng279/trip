@@ -26,6 +26,7 @@
 <div id="wrapper">
     <app-header v-on:menuclick="changemenu"></app-header>
     <component :is="currentView"></component>
+    <app-footer></app-footer>
 </div>
 </body>
 <script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
@@ -46,5 +47,6 @@
 <script src="../../admin/js/home.js"></script>
 <script src="../../admin/js/article.js"></script>
 <script src="../../admin/js/publish.js"></script>
+<script src="../../admin/js/footer.js"></script>
 <script src="../../admin/js/index.js"></script>
 </html>
