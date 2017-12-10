@@ -12,6 +12,7 @@ var index = new Vue({
     components: {
         home: home,
         articles: articles,
-        publishs: publishs
+        publishs: publishs,
+        comments: comments
     }
 });
