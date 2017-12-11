@@ -16,6 +16,7 @@ var index = new Vue({
         comments: comments,
         category: category,
         attach: attach,
-        links: links
+        links: links,
+        setting: setting
     }
 });

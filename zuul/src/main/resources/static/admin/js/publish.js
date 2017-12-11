@@ -3,9 +3,78 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
         resolve({
             template: res,
             data: function () {
-                return {}
+                return {
+                    categories: '',
+                    cid: '',
+                    status: '',
+                    content: '',
+                    title: 'ssssssssssssss',
+                    slug: '',
+                    tags: ''
+                }
             },
             methods: {
+                subArticle: function(data){
+                    debugger;
+                    var tt = $('.tag>span').text().replace(/^\s+|\s+$/gm,'');
+                    var tagss = tt.replace(/\s+/g,",");
+                    var cc = $('#multiple-sel').val();
+                    var categoriess = '';
+                    for(var i=0; i<cc.length; i++){
+                        if(i==(cc.length-1)){
+                            categoriess = categoriess+cc[i];
+                        }else{
+                            categoriess = categoriess+cc[i]+','
+                        }
+
+                    }
+                    if(this.title==''){
+                        alert('标题不能为空');
+                        return;
+                    }
+                    if(this.content==''){
+                        alert('内容不能为空');
+                        return;
+                    }
+                    if(tagss=='' || tagss==undefined){
+                        alert('请添加标签');
+                        return;
+                    }
+                    if(categories=='' || categoriess==undefined){
+                        alert('请添加分类信息');
+                        return;
+                    }
+                    var params = {
+                        title: this.title,
+                        slug: this.slug,
+                        status: data,
+                        tags: tagss,
+                        categories: categoriess,
+                        allowComment: $('#allowComment').val(),
+                        allowPing: $('#allowPing').val(),
+                        allowFeed: $('#allowFeed').val(),
+                        content: this.content
+                    }
+
+                    var url = '/wantrip/article/publish';
+                    var user_token = getCookie("user_token");
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: "json",
+                        data: JSON.stringify(params),
+                        contentType: 'application/json',
+                        headers: {
+                            'Authorization': 'Bearer '+user_token
+                        },
+                        success: function(data){
+                            alert(data);
+                        },
+                        error: function(data){
+
+                        }
+                    });
+                },
                 allowComment: function (event) {
                     //获取点击对象
                     var el = event.currentTarget;
@@ -93,6 +162,3 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
         });
     });
 });
-
-
-

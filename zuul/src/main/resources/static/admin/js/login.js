@@ -38,7 +38,7 @@
                     contentType: 'application/json',
                     success: function(data){
                         setCookie("user_token", data.token);
-    //                    alert(getCookie("user_token"));
+                        window.location.href="../../templates/admin/index.html";
                     },
                     error: function(data){
 
