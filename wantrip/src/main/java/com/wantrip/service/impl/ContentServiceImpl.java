@@ -11,10 +11,7 @@ import com.wantrip.dto.Types;
 import com.wantrip.exception.TipException;
 import com.wantrip.modal.vo.ContentVo;
 import com.wantrip.modal.vo.ContentVoExample;
-import com.wantrip.service.IContentService;
-import com.wantrip.service.IMetaService;
-import com.wantrip.service.IRelationshipService;
-import com.wantrip.service.IUserService;
+import com.wantrip.service.*;
 import com.wantrip.utils.DateKit;
 import com.wantrip.utils.TaleUtils;
 import com.wantrip.utils.Tools;
@@ -50,6 +47,9 @@ public class ContentServiceImpl implements IContentService{
     @Resource
     private IUserService userService;
 
+    @Resource
+    private IZuulUser zuulUser;
+
     @Override
     public void publish(ContentVo contents) {
         if (null == contents) {
@@ -71,7 +71,8 @@ public class ContentServiceImpl implements IContentService{
         }
 
         if (null == contents.getAuthorId()) {
-            JSONObject user = userService.getLoginUser();
+            JSONObject user1 = userService.findUserByName("junfeng");
+            JSONObject user = zuulUser.getLoginUser();
             if(user==null){
                 throw new TipException("请登录后发布文章");
             }else{
