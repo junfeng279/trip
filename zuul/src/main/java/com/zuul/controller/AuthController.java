@@ -7,6 +7,8 @@ import com.zuul.filter.JwtAuthenticationRequest;
 import com.zuul.filter.JwtAuthenticationResponse;
 import com.zuul.service.AuthService;
 import com.zuul.service.UserService;
+import com.zuul.util.MapCache;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.auth.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,10 @@ public class AuthController {
     public JSONObject login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
         JSONObject result = new JSONObject();
         final String token = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        if(StringUtils.isNotBlank(token) && StringUtils.isNotEmpty(token)){
+            //缓存用户信息
+            MapCache.single().set("user", userService.findUserByName(authenticationRequest.getUsername()));
+        }
         result.put("token", token);
         // Return the token
         return result;
@@ -63,5 +69,10 @@ public class AuthController {
         final String rawPassword = addedUser.getString("password");
         addedUser.put("password", encoder.encode(rawPassword));
         return authService.register(addedUser);
+    }
+
+    @RequestMapping(value = "/auth/login/user", method = RequestMethod.GET)
+    public JSONObject getLoginUser(){
+        return MapCache.single().get("user");
     }
 }

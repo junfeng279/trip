@@ -1,5 +1,6 @@
 package com.wantrip.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.vdurmont.emoji.EmojiParser;
@@ -13,6 +14,7 @@ import com.wantrip.modal.vo.ContentVoExample;
 import com.wantrip.service.IContentService;
 import com.wantrip.service.IMetaService;
 import com.wantrip.service.IRelationshipService;
+import com.wantrip.service.IUserService;
 import com.wantrip.utils.DateKit;
 import com.wantrip.utils.TaleUtils;
 import com.wantrip.utils.Tools;
@@ -45,6 +47,9 @@ public class ContentServiceImpl implements IContentService{
     @Resource
     private IMetaService metasService;
 
+    @Resource
+    private IUserService userService;
+
     @Override
     public void publish(ContentVo contents) {
         if (null == contents) {
@@ -64,8 +69,14 @@ public class ContentServiceImpl implements IContentService{
         if (contentLength > WebConst.MAX_TEXT_COUNT) {
             throw new TipException("文章内容过长");
         }
+
         if (null == contents.getAuthorId()) {
-            throw new TipException("请登录后发布文章");
+            JSONObject user = userService.getLoginUser();
+            if(user==null){
+                throw new TipException("请登录后发布文章");
+            }else{
+                contents.setAuthorId(Integer.valueOf(user.get("id").toString()));
+            }
         }
         if (StringUtils.isNotBlank(contents.getSlug())) {
             if (contents.getSlug().length() < 5) {
