@@ -45,8 +45,6 @@ jwt:
       register: "auth/register"
 
 eureka:
-  instance:
-    hostname: config
   client:
     register-with-eureka: true
     fetch-registry: true
