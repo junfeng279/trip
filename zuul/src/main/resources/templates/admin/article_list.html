@@ -18,15 +18,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
+
+                            <tr v-for="article in articles">
                                 <td>
-                                    <a href="#"></a>
+                                    <a href="#">{{article.title}}</a>
                                 </td>
-                                <td>时间</td>
-                                <td>浏览</td>
-                                <td>分类</td>
+                                <td>{{article.created}}</td>
+                                <td>{{article.hits}}</td>
+                                <td>{{article.categories}}</td>
                                 <td>
-                                   已发布
+                                    {{article.status}}
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-sm waves-effect waves-light m-b-5">
@@ -44,6 +45,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div id="pagecontainer" style="text-align: center"> <ul id="pageLimit"></ul> </div>
                 </div>
             </div>
         </div>
