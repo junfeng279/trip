@@ -25,7 +25,7 @@
 
 <div id="wrapper">
     <app-header v-on:menuclick="changemenu"></app-header>
-    <component :is="currentView"></component>
+    <component :is="currentView" v-on:reloadarticle="changemenu"></component>
     <app-footer></app-footer>
 </div>
 </body>
