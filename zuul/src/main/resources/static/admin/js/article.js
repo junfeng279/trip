@@ -4,13 +4,10 @@ var articles = Vue.component('app-article', function(resolve, reject){
         resolve({
             template: res,
             data: function(){
+                var _that = this;
                 return {
-                    articles: []
-                }
-            },
-            methods: {
-                initpage: function(){
-                    $('#pageLimit').bootstrapPaginator({
+                    articles: [],
+                    pageinfo:{
                         currentPage: 1,//当前的请求页面。
                         totalPages: 20,//一共多少页。
                         size:"normal",//应该是页眉的大小。
@@ -25,17 +22,26 @@ var articles = Vue.component('app-article', function(resolve, reject){
                                 case "last": return "末页";
                                 case "page": return page;
                             }
+                        },
+                        onPageChanged:function (event, originalEvent, typePage, currentPage){
+                            _that.getarticles(typePage, 3);
                         }
-                     });
+                    }
+                }
+            },
+            methods: {
+                initpage: function(){
+                    $('#pageLimit').bootstrapPaginator(this.pageinfo);
                 },
-                getarticles: function(){
+                getarticles: function(page, limit){
                     var params = {
-                        "page": 0,
-                        "limit": 20
+                        "page": page,
+                        "limit": limit
                     };
                     var url = '/wantrip/article/pages';
                     var user_token = getCookie("user_token");
                     var _this = this;
+                    _this.articles = [];
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -46,11 +52,15 @@ var articles = Vue.component('app-article', function(resolve, reject){
                             'Authorization': 'Bearer '+user_token
                         },
                         success: function(data){
-                            debugger;
                             if(data){
+                                //设置分页信息
+                                _this.pageinfo.currentPage = data.payload.pageNum;
+                                _this.pageinfo.totalPages = data.payload.pages;
+                              //  _this.pageinfo.totalPages = 10;
                                 for(var i=0; i<data.payload.list.length; i++){
                                     _this.articles.push(data.payload.list[i]);
                                 }
+                               _this.initpage();
                             }
                         },
                         error: function(data){
@@ -60,7 +70,7 @@ var articles = Vue.component('app-article', function(resolve, reject){
                 }
             },
             mounted: function () {
-                this.getarticles();
+                this.getarticles(1, 3);
                 this.initpage();
             }
         });
