@@ -8,12 +8,15 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
                     cid: '',
                     status: '',
                     content: '',
-                    title: 'ssssssssssssss',
+                    title: '',
                     slug: '',
                     tags: ''
                 }
             },
             methods: {
+                reloadarticle: function(data){
+                    this.$emit("reloadarticle", data);
+                },
                 subArticle: function(data){
                     debugger;
                     var tt = $('.tag>span').text().replace(/^\s+|\s+$/gm,'');
@@ -58,6 +61,7 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
 
                     var url = '/wantrip/article/publish';
                     var user_token = getCookie("user_token");
+                    var _this = this;
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -68,7 +72,22 @@ var publishs = Vue.component('app-publish', function (resolve, reject) {
                             'Authorization': 'Bearer '+user_token
                         },
                         success: function(data){
-                            alert(data);
+                            swal({
+                                title: '添加文章成功',
+                                showConfirmButton: true,
+                                showCancelButton: true,
+                                html: $('<div>')
+                                    .addClass('some-class')
+                                    .text('是否继续添加？'),
+                                animation: false,
+                                customClass: 'animated tada'
+                            }).then(function(result){
+                                if(result.value){
+                                    _this.reloadarticle('publishs');
+                                }else{
+                                    window.location.href="../../templates/admin/index.html";
+                                }
+                            });
                         },
                         error: function(data){
 
