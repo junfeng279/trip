@@ -34,6 +34,7 @@ var articles = Vue.component('app-article', function(resolve, reject){
                     $('#pageLimit').bootstrapPaginator(this.pageinfo);
                 },
                 getarticles: function(page, limit){
+                    debugger;
                     var params = {
                         "page": page,
                         "limit": limit
