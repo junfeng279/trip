@@ -7,6 +7,7 @@ import com.wantrip.exception.TipException;
 import com.wantrip.modal.bo.RestResponseBo;
 import com.wantrip.modal.vo.ContentVo;
 import com.wantrip.service.IContentService;
+import com.wantrip.service.IZuulUser;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ public class ArticleController {
     private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
     @Autowired
     private IContentService contentService;
+    @Autowired
+    private IZuulUser zuulUser;
 
     /**
      * 分页查询文章
@@ -55,6 +58,10 @@ public class ArticleController {
             return RestResponseBo.fail("文章内容不能为空");
         }
         contentVo.setType(Types.ARTICLE.getType());
+        JSONObject user = zuulUser.getLoginUser();
+        if(user != null){
+            contentVo.setAuthorId(user.getInteger("id"));
+        }
         if (StringUtils.isBlank(contentVo.getCategories())) {
             contentVo.setCategories("default");
         }
