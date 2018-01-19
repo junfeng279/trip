@@ -7,7 +7,7 @@
                         <h4 class="page-title">发布文章</h4>
                     </div>
                     <div class="col-md-12">
-                        <form id="articleForm" role="form" novalidate="novalidate">
+                        <div id="articleForm" role="form" novalidate="novalidate">
                             <div class="form-group col-md-6" style="padding: 0 10px 0 0;">
                                 <input type="text" class="form-control" v-model="contentVo.title" placeholder="请输入文章标题(必填)" required="required"
                                 aria-required="true"/>
@@ -19,7 +19,7 @@
                                 <input type="text" class="form-control" v-model="contentVo.tags" id="tags" placeholder="请填写文章标签"/>
                             </div>
                             <div class="form-group col-md-6">
-                                <select id="multiple-sel" class="select2 form-control">
+                                <select id="multiple-sel" class="select2 form-control" v-model="contentVo.categories">
                                     <option value="default">请选择分类...</option>
                                     <option value="default">默认分类1</option>
                                     <option value="default">默认分类2</option>
@@ -59,7 +59,7 @@
                                 <button class="btn btn-primary waves-effect waves-light" type="button" v-on:click="submit">保存文章</button>
                                 <button class="btn btn-warning waves-effect waves-light" type="button">存为草稿</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,12 +67,14 @@
     </div>
 </template>
 <script>
-    /* eslint-disable no-unused-vars,no-undef,space-before-function-paren,no-empty-function,space-before-blocks,quotes */
+    /* eslint-disable no-unused-vars,no-undef,space-before-function-paren,no-empty-function,space-before-blocks,quotes,dot-notation,dot-notation */
     import {mavonEditor} from 'mavon-editor';
     import 'mavon-editor/dist/css/index.css';
     import $ from 'jquery';
     import tags from '../../static/plugin/tagsinput/jquery.tagsinput.min';
     import toggles from '../../static/js/toggles';
+    import swal from '../../static/js/select2';
+    import {getCookie} from '../../static/js/cookieUtil';
 
     export default {
         name: 'Publish',
@@ -125,7 +127,12 @@
                 height: '35px',
                 defaultText: '请输入文章标签',
                 onAddTag: function(tag){
-                    _this.contentVo.tags = _this.contentVo.tags + ',' + tag;
+                    if (_this.contentVo.tags !== '') {
+                        _this.contentVo.tags = _this.contentVo.tags + ',' + tag;
+                    } else {
+                        _this.contentVo.tags = tag;
+                    }
+
                  //   alert(_this.contentVo.tags);
                 }
             });
@@ -167,13 +174,43 @@
                 this.contentVo.allowFeed = !this.contentVo.allowFeed;
             },
             submit: function(){
+                if (this.contentVo.title === '') {
+                    alert('文章标题不能为空');
+                }
+                if (this.contentVo.slug === '') {
+                    alert('文章路径不能为空');
+                }
+
+                var url = '/api/wantrip/article/publish';
+                var params = {
+                    title: this.contentVo.title,
+                    slug: this.contentVo.slug,
+                    tags: this.contentVo.tags,
+                    categories: this.contentVo.categories,
+                    content: this.contentVo.content,
+                    allowComment: this.contentVo.allowComment,
+                    allowPing: this.contentVo.allowPing,
+                    allowFeed: this.contentVo.allowFeed
+                };
+                var _this = this;
+                var token = getCookie('token');
+                console.log(token);
+                debugger;
                 this.$ajax({
                     method: 'post',
-                    url: '/user',
-                    data: {
-                        name: 'wise',
-                        info: 'wrong'
-                    }
+                    url: url,
+                    data: JSON.stringify(params),
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        'Authorization': 'Bearer-' + token
+                    },
+                    responseType: 'json'
+                }).then(function (response) {
+                    console.log(response);
+                    swal('文章保存成功！', '继续添加', 'success');
+                }).catch(function (error) {
+                    console.log(error);
+                    swal('文章保存失败！', '重新添加', 'error');
                 });
             }
         }
